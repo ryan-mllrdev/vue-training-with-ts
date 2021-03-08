@@ -1,0 +1,19 @@
+<div class="searchResultContainer">
+    <div class="resultHeaderContainer">
+        <label class="resultHeader">Github Users</label>
+    </div>
+    <md-content class="md-scrollbar usersContainer">
+        <md-list class="md-triple-line" v-for="user in users" :key="user.id">
+            <md-list-item>
+                <md-avatar>
+                    <img v-bind:src="user.avatar_url" alt="People">
+                </md-avatar>
+                <div class="md-list-item-text">
+                    <span>{{user.login}}</span>
+                    <router-link :to="{ name: 'Repositories', params: { id: user.login } }">{{user.repos_url}}</router-link>
+                </div>
+            </md-list-item>
+            <md-divider class="md-inset"></md-divider>
+        </md-list>
+    </md-content>
+</div>

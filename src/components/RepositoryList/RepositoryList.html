@@ -1,0 +1,15 @@
+<div class="searchResultContainer">
+    <div class="resultHeaderContainer">
+        <label class="resultHeader">Repositories - {{currentUser}}</label>
+    </div>
+    <md-content class="md-scrollbar repositoriesContainer">
+        <md-list v-for="repository in repositories" :key="repository.id">
+            <md-list-item>
+                <div class="md-list-item-text">
+                    <span>{{repository.full_name}}</span>
+                    <a v-bind:href="repository.html_url">{{repository.html_url}}</a>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</div>
