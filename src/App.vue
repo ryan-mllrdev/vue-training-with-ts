@@ -1,11 +1,7 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
     <md-tabs md-sync-route>
-      <md-tab id="tab-home" md-label="Home" to="/" exact></md-tab>
+      <md-tab id="tab-home" md-label="Users" to="/" exact></md-tab>
       <md-tab id="tab-pages" md-label="About" to="/about"></md-tab>
     </md-tabs>
     <router-view />

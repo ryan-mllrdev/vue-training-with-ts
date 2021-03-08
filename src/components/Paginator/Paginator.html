@@ -1,0 +1,7 @@
+<div class="pagesContainer">
+    <md-button class="md-dense md-primary" @click="onSelectPage(1)">First</md-button>
+    <md-button class="md-dense md-primary" @click="onSelectPage(-1)">Previous</md-button>
+    <md-button class="md-dense md-primary" v-for="n in pages" :key="n" @click="onSelectPage(n)">{{ n }} </md-button>
+    <md-button class="md-dense md-primary" @click="onSelectPage(0)">Next</md-button>
+    <md-button class="md-dense md-primary" @click="onSelectPage(pages)">Last</md-button>
+</div>

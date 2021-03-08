@@ -1,7 +1,7 @@
 <template>
   <div class="tab2Container">
     <SearchBar searchBarTitle="SEARCH: " @onSearch="onSearch($event)" />
-    <UserList v-bind:users="users" />
+    <UserList :users="users" />
   </div>
 </template>
 
@@ -9,8 +9,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import SearchBar from "../components/SearchBar/SearchBar.vue"; // @ is an alias to /src
-import UserList from "../components/UserList/UserList.vue"; // @ is an alias to /src
+import SearchBar from "../../components/SearchBar/SearchBar.vue";
+import UserList from "../../components/UserList/UserList.vue";
 import { IGithubUser } from "@/core/interfaces/IGithubUser";
 
 interface DataObject {
@@ -21,17 +21,17 @@ export default Vue.extend({
   name: "Users",
   components: {
     SearchBar,
-    UserList,
+    UserList
   },
   data(): DataObject {
     return {
-      users: [],
+      users: []
     };
   },
   methods: {
     onSearch(users: IGithubUser[]) {
       this.users = users;
-    },
-  },
+    }
+  }
 });
 </script>

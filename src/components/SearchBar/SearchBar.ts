@@ -23,7 +23,8 @@ export default Vue.extend({
   },
   methods: {
     getSampleResults() {
-      axios.get("https://api.github.com/users?per_page=100").then((response) => {
+      axios.get("https://api.github.com/users?since=1").then((response) => {
+        console.log(response);
         this.filteredResults = this.results = response.data;
         this.onResultsUpdated(this.filteredResults);
       });
@@ -36,7 +37,6 @@ export default Vue.extend({
         return (
           contains(result.id.toString(), this.searchKeyword) ||
           contains(result.login, this.searchKeyword) ||
-          // contains(result.email, this.searchKeyword) ||
           this.searchKeyword === ""
         );
       });
