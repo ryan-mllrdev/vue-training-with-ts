@@ -1,20 +1,14 @@
 <div class="searchResultContainer">
-    <div class="resultHeaderContainer">
-        <label class="resultHeader">Github Users</label>
-    </div>
-    <md-content class="md-scrollbar usersContainer">
-        <md-list class="md-triple-line" v-for="user in users" :key="user.id">
-            <md-list-item>
-                <md-avatar>
-                    <img v-bind:src="user.avatar_url" alt="People">
-                </md-avatar>
-                <div class="md-list-item-text">
-                    <span>{{user.login}}</span>
-                    <router-link :to="{ name: 'Repositories', params: { id: user.login } }">{{user.repos_url}}</router-link>
-                </div>
-            </md-list-item>
-            <md-divider class="md-inset"></md-divider>
-        </md-list>
-    </md-content>
+    <md-table md-height="100%" class="usersTable" v-model="users" md-sort="login" md-sort-order="asc" md-card md-fixed-header>
+        <md-table-toolbar>
+            <UserForm class="md-toolbar-section-start" />
+            <SearchBar class="md-toolbar-section-end" searchBarTitle="SEARCH: " @onSearch="onSearch($event)" />
+        </md-table-toolbar>
+        <md-table-row slot="md-table-row" slot-scope="{ item }">
+            <md-table-cell md-width="200" class="tableCell" md-label="Login" md-sort-by="login">{{ item.login }}</md-table-cell>
+            <md-table-cell md-width="200" class="tableCell" md-label="Url" md-sort-by="url">{{ item.url }}</md-table-cell>
+            <md-table-cell md-width="200" class="tableCell" md-label="Repository" md-sort-by="reposUrl">{{ item.reposUrl }}</md-table-cell>
+        </md-table-row>
+    </md-table>
     <Paginator :pages="5" />
 </div>

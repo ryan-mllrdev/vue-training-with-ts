@@ -1,7 +1,7 @@
 export interface IGithubUser {
     id: number;
-    login: string;
-    avatar_url: string;
-    url: string;
-    repos_url: string;
+    login?: string | null;
+    avatarUrl?: string | null;
+    url?: string | null;
+    reposUrl?: string | null;
 }

@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css?family=Material+Icons");
+.plus {
+  margin: 0 !important;
+  cursor: pointer;
+  .icon {
+    color: #42a5f5 !important;
+    font-weight: 300;
+  }
+  label {
+      font-weight: 600;
+  }
+}

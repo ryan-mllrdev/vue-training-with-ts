@@ -1,6 +1,11 @@
-<div class="searchBarContainer">
-    <md-field>
+<!-- <div class="searchBarContainer">
+    <md-field md-clearable class="md-toolbar-section-end">
         <label class="label">{{ searchBarTitle }}</label>
         <md-input class="searchBar" placeholder="Search..." v-model="searchKeyword" @input="onSearch()"></md-input>
     </md-field>
-</div>
+</div> -->
+
+<md-field md-clearable>
+    <label class="label">{{ searchBarTitle }}</label>
+    <md-input class="searchBar" placeholder="Search..." v-model="searchKeyword" @input="onSearch()"></md-input>
+</md-field>

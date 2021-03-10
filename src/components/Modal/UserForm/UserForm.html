@@ -1,0 +1,68 @@
+<div>
+    <md-button class="plus" @click="showUserForm()">
+        <md-icon class="icon">add</md-icon>
+        <label>Users</label>
+    </md-button>
+    <md-dialog :md-active.sync="showDialog" :md-click-outside-to-close="false" :md-close-on-esc="false">
+        <md-dialog-title>Add User</md-dialog-title>
+
+        <form novalidate @submit.prevent="validateUser">
+            <md-card class="md-layout-item">
+                <md-card-content>
+                    <div class="md-layout md-gutter">
+                        <div class="md-layout-item md-small-size-100">
+                            <md-field :class="getValidationClass('login')">
+                                <label for="login">Username</label>
+                                <md-input name="login" id="login" autocomplete="login" v-model="user.login"
+                                    :disabled="sending" />
+                                <span class="md-error" v-if="!$v.user.login.required">The user name is
+                                    required</span>
+                                <span class="md-error" v-else-if="!$v.user.login.minLength">The minimum number of characters should be 5</span>
+                                <span class="md-error" v-else-if="!$v.user.login.maxLength">The maximum number of characters should be 20</span>
+                            </md-field>
+                        </div>
+
+                        <div class="md-layout-item md-small-size-100">
+                            <md-field :class="getValidationClass('avatarUrl')">
+                                <label for="avatarUrl">Avatar Url</label>
+                                <md-input name="avatarUrl" id="avatarUrl" autocomplete="avatarUrl"
+                                    v-model="user.avatarUrl" :disabled="sending" />
+                            </md-field>
+                        </div>
+                    </div>
+
+                    <div class="md-layout md-gutter">
+                        <div class="md-layout-item md-small-size-100">
+                            <md-field :class="getValidationClass('reposUrl')">
+                                <label for="reposUrl">Repository Url</label>
+                                <md-input name="reposUrl" id="reposUrl" autocomplete="reposUrl" v-model="user.reposUrl"
+                                    :disabled="sending" />
+                            </md-field>
+                        </div>
+                        <div class="md-layout-item md-small-size-100">
+                            <md-field :class="getValidationClass('url')">
+                                <label for="url">Url</label>
+                                <md-input name="url" id="url" autocomplete="url" v-model="user.url"
+                                    :disabled="sending" />
+                            </md-field>
+                        </div>
+                    </div>
+                </md-card-content>
+
+                <md-progress-bar md-mode="indeterminate" v-if="sending" />
+
+                <md-card-actions>
+                    <md-button class="md-primary" @click="closeUserForm()">Close</md-button>
+                    <md-button type="submit" class="md-primary" :disabled="sending">Create user</md-button>
+                </md-card-actions>
+            </md-card>
+
+            <!-- <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar> -->
+        </form>
+
+        <!-- <md-dialog-actions>
+            <md-button class="md-primary" @click="closeUserForm()">Close</md-button>
+            <md-button class="md-primary" @click="save()">Save</md-button>
+        </md-dialog-actions> -->
+    </md-dialog>
+</div>
