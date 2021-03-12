@@ -11,14 +11,17 @@ interface StateObject {
 export default new Vuex.Store({
   state(): StateObject {
     return {
-      users: []
-    }
+      users: [],
+    };
   },
   mutations: {
     onUserCreated(state: StateObject, user: IGithubUser) {
       state.users.push(user);
-    }
+    },
+    onUserSelected(state: StateObject, user: IGithubUser) {
+      const currentUser = user;
+    },
   },
   actions: {},
-  modules: {}
+  modules: {},
 });

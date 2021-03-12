@@ -10,19 +10,21 @@ interface DataObject {
 export default Vue.extend({
   name: "RepositoryList",
   data(): DataObject {
-      return {
-        repositories: [],
-        currentUser: "",
-      }
+    return {
+      repositories: [],
+      currentUser: "",
+    };
   },
   methods: {
     getUserRepositories(user: string) {
-      axios.get(`https://api.github.com/users/${user}/repos`).then(response => {
-        this.repositories = response.data;
-      });
-    }
+      axios
+        .get(`https://api.github.com/users/${user}/repos`)
+        .then((response) => {
+          this.repositories = response.data;
+        });
+    },
   },
-  created() { 
-    this.getUserRepositories(this.currentUser = this.$route.params.id);
-  }
+  created() {
+    this.getUserRepositories((this.currentUser = this.$route.params.id));
+  },
 });

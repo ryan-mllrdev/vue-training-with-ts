@@ -1,14 +1,35 @@
 <div class="searchResultContainer">
-    <md-table md-height="100%" class="usersTable" v-model="users" md-sort="login" md-sort-order="asc" md-card md-fixed-header>
-        <md-table-toolbar>
-            <UserForm class="md-toolbar-section-start" />
-            <SearchBar class="md-toolbar-section-end" searchBarTitle="SEARCH: " @onSearch="onSearch($event)" />
-        </md-table-toolbar>
-        <md-table-row slot="md-table-row" slot-scope="{ item }">
-            <md-table-cell md-width="200" class="tableCell" md-label="Login" md-sort-by="login">{{ item.login }}</md-table-cell>
-            <md-table-cell md-width="200" class="tableCell" md-label="Url" md-sort-by="url">{{ item.url }}</md-table-cell>
-            <md-table-cell md-width="200" class="tableCell" md-label="Repository" md-sort-by="reposUrl">{{ item.reposUrl }}</md-table-cell>
-        </md-table-row>
-    </md-table>
-    <Paginator :pages="5" />
+    <div class="resultHeaderContainer">
+        <UserFormModal />
+        <SearchBar searchBarTitle="SEARCH: " @onSearch="onSearch($event)" />
+    </div>
+    <div>
+        <div class="usersTable">
+            <md-content class="usersTableBody md-scrollbar">
+                <div class="usersTableHeader">
+                    <div class="usersTableHead">Login</div>
+                    <div class="usersTableHead">Url</div>
+                    <div class="usersTableHead">Repository</div>
+                    <div class="usersTableHead">Avatar Url</div>
+                </div>
+                <div v-for="user in users" :key="user.id" @click="onSelect(user)"
+                    :class="user.selected ? 'usersTableRowSelected' : 'usersTableRow'">
+                    <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">{{user.login}}</div>
+                    <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">{{user.url}}</div>
+                    <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">{{user.reposUrl}}</div>
+                    <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">{{user.avatarUrl}}</div>
+                </div>
+            </md-content>
+        </div>
+        <div>
+            <md-drawer class="md-right editUserPanel" :md-active.sync="showEditPanel" md-persistent="full">
+                <md-toolbar class="md-dense closeButtonContainer">
+                    <span class="closeButton" @click="onHideEditPanel()">
+                        <md-icon>close</md-icon>
+                    </span>
+                </md-toolbar>
+                <UserForm :edit="true" :selectedUser="selectedUser" />
+            </md-drawer>
+        </div>
+    </div>
 </div>

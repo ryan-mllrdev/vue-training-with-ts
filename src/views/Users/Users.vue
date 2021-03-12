@@ -1,34 +1,3 @@
-<template>
-  <UserList />
-</template>
-
-<style lang="scss" scoped></style>
-
-<script lang="ts">
-import Vue from "vue";
-// import SearchBar from "../../components/SearchBar/SearchBar.vue";
-import UserList from "../../components/UserList/UserList.vue";
-// import { IGithubUser } from "@/core/interfaces/IGithubUser";
-
-// interface DataObject {
-//   users: IGithubUser[];
-// }
-
-export default Vue.extend({
-  name: "Users",
-  components: {
-    // SearchBar,
-    UserList,
-  },
-  // data(): DataObject {
-  //   return {
-  //     users: []
-  //   };
-  // },
-  // methods: {
-  //   onSearch(users: IGithubUser[]) {
-  //     this.users = users;
-  //   }
-  // }
-});
-</script>
+<template src="./Users.html"></template>
+<script lang="ts" src="./Users.ts"></script>
+<style lang="scss" src="./Users.scss" scoped></style>

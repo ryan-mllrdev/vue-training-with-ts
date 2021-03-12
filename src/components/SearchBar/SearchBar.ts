@@ -25,7 +25,7 @@ export default Vue.extend({
   methods: {
     getSampleResults() {
       // axios.get("https://api.github.com/users?since=1").then((response) => {
-        axios.get('http://localhost:3000/users').then((response) => {
+      axios.get("http://localhost:3000/users").then((response) => {
         // console.log(response);
         this.filteredResults = this.results = response.data;
         this.onResultsUpdated(this.filteredResults);
@@ -46,7 +46,7 @@ export default Vue.extend({
     },
     onResultsUpdated(newResults: IGithubUser[]) {
       this.$emit("onSearch", newResults);
-    }
+    },
   },
   mounted() {
     this.getSampleResults();

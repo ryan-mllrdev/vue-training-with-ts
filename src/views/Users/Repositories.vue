@@ -16,17 +16,17 @@ interface DataObject {
 export default Vue.extend({
   name: "Repositories",
   components: {
-    RepositoryList
+    RepositoryList,
   },
   data(): DataObject {
     return {
-      repositories: []
+      repositories: [],
     };
   },
   methods: {
     onSearch(repositories: IUserRepository[]) {
       this.repositories = repositories;
-    }
-  }
+    },
+  },
 });
 </script>
