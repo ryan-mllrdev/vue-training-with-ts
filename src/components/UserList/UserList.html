@@ -10,14 +10,18 @@
                     <div class="usersTableHead">Login</div>
                     <div class="usersTableHead">Url</div>
                     <div class="usersTableHead">Repository</div>
-                    <div class="usersTableHead">Avatar Url</div>
                 </div>
                 <div v-for="user in users" :key="user.id" @click="onSelect(user)"
                     :class="user.selected ? 'usersTableRowSelected' : 'usersTableRow'">
-                    <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">{{user.login}}</div>
+                    <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">
+                        <md-avatar class="md-large" style="padding: 5px;">
+                            <img :src="'http://localhost:3000/' + user.avatarUrl"
+                                onError="this.src='https://cdn.iconscout.com/icon/free/png-512/no-image-1771002-1505134.png'">
+                        </md-avatar>
+                        {{user.login}}
+                    </div>
                     <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">{{user.url}}</div>
                     <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">{{user.reposUrl}}</div>
-                    <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">{{user.avatarUrl}}</div>
                 </div>
             </md-content>
         </div>

@@ -20,7 +20,7 @@
                     <md-field :class="getValidationClass('avatarUrl')">
                         <label for="avatarUrl">Avatar Url</label>
                         <md-input name="avatarUrl" id="avatarUrl" autocomplete="avatarUrl" v-model="user.avatarUrl"
-                            :disabled="sending" />
+                            :disabled="true" />
                     </md-field>
                 </div>
             </div>
@@ -42,8 +42,21 @@
                 <div v-if="edit" class="md-layout-item md-small-size-100">
                     <div>
                         <md-field>
-                            <md-input v-model="file" type="file" @change="onSelectFile($event)" />
-                            <md-button class="md-accent" @click="onUploadFile()">Upload File</md-button>
+                            <div class="uploadFileContainer">
+                                <div @click="onChooseFile()">
+                                    <md-input class="inputFile" ref="file" v-model="file" type="file"
+                                        @change="onSelectFile($event)" />
+                                    <div class="selectedImageContainer">
+                                        <img class="selectedImage" v-if="!previewImageUrl"
+                                            :src="'http://localhost:3000/' + user.avatarUrl"
+                                            onError="this.src='https://cdn.iconscout.com/icon/free/png-512/no-image-1771002-1505134.png'">
+                                        <img class="selectedImage" v-if="previewImageUrl" :src="previewImageUrl" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <md-button class="md-accent" @click="onUploadFile()">Upload File</md-button>
+                                </div>
+                            </div>
                         </md-field>
                     </div>
                 </div>

@@ -11,6 +11,7 @@ interface DataObject {
   sending: boolean;
   formData: FormData | null;
   file: string;
+  previewImageUrl: string;
 }
 
 export default Vue.extend({
@@ -34,6 +35,7 @@ export default Vue.extend({
       sending: false,
       formData: null,
       file: "",
+      previewImageUrl: "",
     };
   },
   validations: {
@@ -97,6 +99,7 @@ export default Vue.extend({
     },
     onSelectFile(event: any) {
       const file = event.target.files[0];
+      this.previewImageUrl =  URL.createObjectURL(file);
 
       this.formData = new FormData();
       this.formData.append("body", JSON.stringify(this.selectedUser));
@@ -107,6 +110,7 @@ export default Vue.extend({
       axios
         .post("http://localhost:3000/upload", this.formData)
         .then((response) => {
+          this.previewImageUrl = "";
           this.file = "";
           this.selectedUser.avatarUrl = response.data;
           this.user = this.selectedUser;
@@ -116,6 +120,9 @@ export default Vue.extend({
           console.log(error);
         });
     },
+    onChooseFile() {
+      ((this.$refs.file as Vue).$el as HTMLElement).click();
+    }
   },
   created() {
     store.subscribe((mutation, state) => {
