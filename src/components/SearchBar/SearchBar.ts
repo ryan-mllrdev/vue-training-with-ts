@@ -1,7 +1,6 @@
 import Vue from "vue";
 import { IGithubUser } from "@/core/interfaces/IGithubUser";
 import axios from "axios";
-import store from "@/store";
 
 interface DataObject {
   results: IGithubUser[];
@@ -24,9 +23,7 @@ export default Vue.extend({
   },
   methods: {
     getSampleResults() {
-      // axios.get("https://api.github.com/users?since=1").then((response) => {
-      axios.get("http://localhost:3000/users").then((response) => {
-        // console.log(response);
+      axios.get(`${process.env.VUE_APP_API_URL}/users`).then((response) => {
         this.filteredResults = this.results = response.data;
         this.onResultsUpdated(this.filteredResults);
       });

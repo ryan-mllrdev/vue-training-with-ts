@@ -4,7 +4,6 @@
         <label>Users</label>
     </md-button>
     <md-dialog :md-active.sync="showDialog" :md-click-outside-to-close="false" :md-close-on-esc="false">
-
         <md-toolbar class="md-dense">Add User</md-toolbar>
         <UserForm @onCloseDialog="closeUserForm()" />
     </md-dialog>

@@ -1,30 +1,35 @@
 <form novalidate @submit.prevent="validateUser">
-    <md-card class="md-layout-item">
+    <md-card>
         <md-card-content>
-            <div class="md-layout md-gutter">
-                <div class="md-layout-item md-small-size-100">
-                    <md-field :class="getValidationClass('login')">
-                        <label for="login">Username</label>
-                        <md-input name="login" id="login" autocomplete="login" v-model="user.login"
-                            :disabled="sending" />
-                        <span class="md-error" v-if="!$v.user.login.required">The user name is
-                            required</span>
-                        <span class="md-error" v-else-if="!$v.user.login.minLength">The minimum number of characters
-                            should be 5</span>
-                        <span class="md-error" v-else-if="!$v.user.login.maxLength">The maximum number of characters
-                            should be 20</span>
-                    </md-field>
-                </div>
-
-                <div class="md-layout-item md-small-size-100">
-                    <md-field :class="getValidationClass('avatarUrl')">
-                        <label for="avatarUrl">Avatar Url</label>
-                        <md-input name="avatarUrl" id="avatarUrl" autocomplete="avatarUrl" v-model="user.avatarUrl"
-                            :disabled="true" />
-                    </md-field>
+            <div v-if="edit" class="uploadFileContainer">
+                <div @click="onChooseFile()">
+                    <md-input class="inputFile" ref="file" v-model="file" type="file" @change="onSelectFile($event)" />
+                    <div class="selectedImageContainer">
+                        <img class="selectedImage" v-if="!previewImageUrl" :src="baseApiURL + '/' + user.avatarUrl"
+                            onError="this.src='https://cdn.iconscout.com/icon/free/png-512/no-image-1771002-1505134.png'">
+                        <img class="selectedImage" v-if="previewImageUrl" :src="previewImageUrl" />
+                    </div>
                 </div>
             </div>
-
+            <div>
+                <md-field :class="getValidationClass('login')">
+                    <label for="login">Username</label>
+                    <md-input name="login" id="login" autocomplete="login" v-model="user.login" :disabled="sending" />
+                    <span class="md-error" v-if="!$v.user.login.required">The user name is
+                        required</span>
+                    <span class="md-error" v-else-if="!$v.user.login.minLength">The minimum number of characters
+                        should be 5</span>
+                    <span class="md-error" v-else-if="!$v.user.login.maxLength">The maximum number of characters
+                        should be 20</span>
+                </md-field>
+            </div>
+            <div>
+                <md-field :class="getValidationClass('avatarUrl')">
+                    <label for="avatarUrl">Avatar Url</label>
+                    <md-input name="avatarUrl" id="avatarUrl" autocomplete="avatarUrl" v-model="user.avatarUrl"
+                        :disabled="true" />
+                </md-field>
+            </div>
             <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
                     <md-field :class="getValidationClass('reposUrl')">
@@ -39,37 +44,15 @@
                         <md-input name="url" id="url" autocomplete="url" v-model="user.url" :disabled="sending" />
                     </md-field>
                 </div>
-                <div v-if="edit" class="md-layout-item md-small-size-100">
-                    <div>
-                        <md-field>
-                            <div class="uploadFileContainer">
-                                <div @click="onChooseFile()">
-                                    <md-input class="inputFile" ref="file" v-model="file" type="file"
-                                        @change="onSelectFile($event)" />
-                                    <div class="selectedImageContainer">
-                                        <img class="selectedImage" v-if="!previewImageUrl"
-                                            :src="'http://localhost:3000/' + user.avatarUrl"
-                                            onError="this.src='https://cdn.iconscout.com/icon/free/png-512/no-image-1771002-1505134.png'">
-                                        <img class="selectedImage" v-if="previewImageUrl" :src="previewImageUrl" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <md-button class="md-accent" @click="onUploadFile()">Upload File</md-button>
-                                </div>
-                            </div>
-                        </md-field>
-                    </div>
-                </div>
             </div>
         </md-card-content>
-
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
         <md-card-actions>
             <md-button v-if="!edit" class="md-primary" @click="closeUserForm()">Cancel</md-button>
             <md-button type="submit" class="md-primary" :disabled="sending">{{ edit ? 'Save Changes' : 'Create user' }}
             </md-button>
         </md-card-actions>
     </md-card>
-    <!-- <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar> -->
+
+    <md-snackbar :md-active.sync="saved">Success!</md-snackbar>
 </form>

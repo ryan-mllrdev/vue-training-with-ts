@@ -15,7 +15,7 @@
                     :class="user.selected ? 'usersTableRowSelected' : 'usersTableRow'">
                     <div :class="user.selected ? 'usersTableCellSelected' : 'usersTableCell'">
                         <md-avatar class="md-large" style="padding: 5px;">
-                            <img :src="'http://localhost:3000/' + user.avatarUrl"
+                            <img :src="baseApiURL + '/' + user.avatarUrl"
                                 onError="this.src='https://cdn.iconscout.com/icon/free/png-512/no-image-1771002-1505134.png'">
                         </md-avatar>
                         {{user.login}}

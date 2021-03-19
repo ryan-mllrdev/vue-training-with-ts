@@ -1,8 +1,6 @@
 .uploadFileContainer {
   display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
+  cursor: pointer;
 
   .inputFile {
     display: none;
@@ -11,7 +9,7 @@
   .selectedImageContainer {
     padding: 5px;
     .selectedImage {
-      width: 100px;
+      width: auto;
       height: auto;
     }
   }

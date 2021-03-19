@@ -12,6 +12,8 @@ interface DataObject {
   formData: FormData | null;
   file: string;
   previewImageUrl: string;
+  baseApiURL: string;
+  saved: boolean;
 }
 
 export default Vue.extend({
@@ -27,15 +29,17 @@ export default Vue.extend({
     return {
       user: {
         id: 0,
-        avatarUrl: null,
-        login: null,
-        reposUrl: null,
-        url: null,
+        avatarUrl: "",
+        login: "",
+        reposUrl: "",
+        url: "",
       },
       sending: false,
       formData: null,
       file: "",
       previewImageUrl: "",
+      baseApiURL: process.env.VUE_APP_API_URL,
+      saved: false
     };
   },
   validations: {
@@ -50,7 +54,6 @@ export default Vue.extend({
   methods: {
     getValidationClass(fieldName: string) {
       const field = this.$v.user[fieldName];
-
       if (field) {
         return {
           "md-invalid": field.$invalid && field.$dirty,
@@ -59,10 +62,11 @@ export default Vue.extend({
     },
     clearForm() {
       this.$v.$reset();
-      this.user!.login = null;
-      this.user!.avatarUrl = null;
-      this.user!.reposUrl = null;
-      this.user!.url = null;
+      this.user!.login = "";
+      this.user!.avatarUrl = "";
+      this.user!.reposUrl = "";
+      this.user!.url = "";
+      this.saved = false;
     },
     validateUser() {
       this.$v.$touch();
@@ -72,17 +76,59 @@ export default Vue.extend({
       }
     },
     saveUser() {
+      this.saved = false;
       this.sending = true;
+      const {
+        login,
+        firstName,
+        surName,
+        url,
+        avatarUrl,
+        reposUrl,
+        password,
+      } = this.user!;
+      const currentUser = {
+        login,
+        firstName,
+        surName,
+        url,
+        avatarUrl,
+        reposUrl,
+        password,
+      };
+      console.log(currentUser);
       setTimeout(() => {
         if (this.edit) {
-          axios
-            .put(`http://localhost:3000/user/${this.user?.id}`, this.user)
-            .then((response) => {
-              this.sending = false;
-            });
+          // Function to update a user detail
+          const updateUser = () => {
+            axios
+              .put(`${this.baseApiURL}/users/${this.user?.id}`, currentUser)
+              .then((response) => {
+                this.sending = false;
+                this.saved = true;
+              });
+          };
+
+          // Check if image has changed
+          if (this.previewImageUrl) {
+            this.uploadFile()
+              .then((response) => {
+                this.previewImageUrl = "";
+                this.file = "";
+                this.selectedUser.avatarUrl = currentUser.avatarUrl =
+                  response.data;
+                this.user = this.selectedUser;
+                updateUser(); // Update the user after saving the image
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            updateUser();
+          }
         } else {
           axios
-            .post("http://localhost:3000/user", this.user)
+            .post(`${this.baseApiURL}/users`, currentUser)
             .then((response) => {
               this.sending = false;
               this.clearForm();
@@ -99,30 +145,19 @@ export default Vue.extend({
     },
     onSelectFile(event: any) {
       const file = event.target.files[0];
-      this.previewImageUrl =  URL.createObjectURL(file);
+      this.previewImageUrl = URL.createObjectURL(file);
 
       this.formData = new FormData();
       this.formData.append("body", JSON.stringify(this.selectedUser));
       this.formData.append("file", file);
     },
-    onUploadFile() {
+    async uploadFile() {
       this.sending = true;
-      axios
-        .post("http://localhost:3000/upload", this.formData)
-        .then((response) => {
-          this.previewImageUrl = "";
-          this.file = "";
-          this.selectedUser.avatarUrl = response.data;
-          this.user = this.selectedUser;
-          this.saveUser();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      return await axios.post(`${this.baseApiURL}/upload`, this.formData);
     },
     onChooseFile() {
       ((this.$refs.file as Vue).$el as HTMLElement).click();
-    }
+    },
   },
   created() {
     store.subscribe((mutation, state) => {

@@ -6,12 +6,15 @@ import { IGithubUser } from "@/core/interfaces/IGithubUser";
 import SearchBar from "../../components/SearchBar/SearchBar.vue";
 import store from "@/store";
 
+type IUser = IGithubUser & { selected: boolean };
+
 interface DataObject {
-  users: IGithubUser[];
+  users: IUser[];
   showDialog: boolean;
   showEditPanel: boolean;
-  selectedUser: IGithubUser | null;
-  previousSelected: IGithubUser | null;
+  selectedUser: IUser | null;
+  previousSelected: IUser | null;
+  baseApiURL: string;
 }
 
 export default Vue.extend({
@@ -29,16 +32,17 @@ export default Vue.extend({
       showEditPanel: false,
       selectedUser: null,
       previousSelected: null,
+      baseApiURL: process.env.VUE_APP_API_URL,
     };
   },
   methods: {
     openUserForm() {
       this.showDialog = true;
     },
-    onSearch(users: IGithubUser[]) {
+    onSearch(users: IUser[]) {
       this.users = users;
     },
-    onSelect(user: IGithubUser) {
+    onSelect(user: IUser) {
       user.selected = true;
       this.showEditPanel = false;
       setTimeout(() => {
@@ -62,7 +66,7 @@ export default Vue.extend({
   created() {
     this.showEditPanel = false;
     store.subscribe((mutation, state) => {
-      const newUser: IGithubUser = {
+      const newUser: IUser = {
         ...mutation.payload,
       };
       if (mutation.type === "onUserCreated") {
